@@ -103,11 +103,11 @@ describe "GoTest"
     view +14 build_tags_test.go
     TestNearest
 
-    Expect g:test#last_command == 'go test -tags=foo,hello,world,!bar,red,black -run ''TestNumbers$'' ./.'
+    Expect g:test#last_command == 'go test -tags=!bar,foo,hello,world,red,black -run ''TestNumbers$'' ./.'
 
     TestFile
 
-    Expect g:test#last_command == 'go test -tags=foo,hello,world,!bar,red,black'
+    Expect g:test#last_command == 'go test -tags=!bar,foo,hello,world,red,black'
   end
 
   it "runs test suite without tags"

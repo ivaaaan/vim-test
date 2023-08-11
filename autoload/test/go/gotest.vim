@@ -25,7 +25,7 @@ function! test#go#gotest#build_args(args) abort
   if index(a:args, './...') >= 0
     return a:args
   endif
-  let tags = []
+  let tags = {}
   let index = 1
   let pattern = '^//\s*+build\s\+\(.\+\)'
   while index <= getbufinfo('%')[0]['linecount']
@@ -37,14 +37,14 @@ function! test#go#gotest#build_args(args) abort
     if l:tag != l:line
       " replace OR tags with AND, since we are going to use all the tags anyway
       let tag = substitute(l:tag, ' \+', ',', 'g')
-      call add(l:tags, l:tag)
+      let l:tags[l:tag] = 1
     endif
     let index += 1
   endwhile
   if len(l:tags) == 0
     return a:args
   else
-    let args = ['-tags=' . join(l:tags, ',')] + a:args
+    let args = ['-tags=' . join(sort(keys(l:tags)), ',')] + a:args
     return l:args
   endif
 endfunction
